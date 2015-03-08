@@ -1,0 +1,20 @@
+
+
+
+
+$unsemantic-ie7-support: false;
+$unsemantic-prefix-suffix-support: true !default;
+$unsemantic-push-pull-support: true !default;
+
+$container-max-width: 1100px !default;
+
+$gutter-half: 20px !default;
+
+$lang-forward: left !default;
+
+$lang-reverse: right !default;
+
+
+
+
+@import "_unsemantic-grid-responsive-tablet";

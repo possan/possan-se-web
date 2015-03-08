@@ -1,0 +1,31 @@
+<div class="bigheader">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>{{title}}</h1>
+				{{#subtitle}}
+				<p>{{subtitle}}</p>
+				{{/subtitle}}
+			</div>
+		</div>
+	</div>
+</div>
+
+<section class="articles container">
+	<div class="row">
+
+{{#latest}}
+	<a href="{{local_url}}" class="article col-md-4 col-sm-6 col-xs-12">
+		<header>
+			<img src="http://lorempixel.com/500/250/" />
+			<h1>{{title}}</h1>
+				{{#subtitle}}
+				<p>{{subtitle}}</p>
+				{{/subtitle}}
+		</header>
+	</a>
+{{/latest}}
+
+	</div>
+</section>
+

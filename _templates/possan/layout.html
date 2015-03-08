@@ -1,0 +1,54 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="/bootstrap.css">
+		<link rel="stylesheet" href="/blocky.css">
+
+		{{#canonical_url}}
+		<meta name="canonical" href="{{canonical_url}}" />
+		{{/canonical_url}}
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+
+	<body>
+		<header class="navbar">
+			<div class="container">
+				<div class="row headercontent">
+					<div class="col-md-4 logo">
+						<a href="/" class="site">possan.se</a>
+						| <a href="/projects">projects</a>
+						| <a href="/posts">posts</a>
+					</div>
+					<div class="col-md-8 breadcrumbs">
+					</div>
+				</div>
+			</div>
+		</header>
+
+		{{{innerhtml}}}
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 sm-md-6 xs-md-12 about">
+						<img src="http://lorempixel.com/200/200" class="photo" />
+						<b>Hello!</b><br/>
+						I like tinkering
+					</div>
+
+					<div class="grid-33 mobile-grid-100 tablet-grid-50 links">
+						You can find me here:<br/>
+						<a href="#">Twitter</a>
+						<a href="#">GitHub</a>
+						<a href="#">Facebook</a>
+						<a href="#">LinkedIn</a>
+						<a href="#">Flickr</a>
+						<a href="#">Spotify</a>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+	</body>
+</html>
