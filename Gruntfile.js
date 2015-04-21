@@ -14,16 +14,28 @@ module.exports = function(grunt) {
       template2: {
         src: '_templates/possan/unsemantic.scss',
         dest: '_templates/possan/unsemantic.css'
+      },
+      template3: {
+        src: 'testbed/blocky.scss',
+        dest: 'testbed/blocky.css'
       }
     },
 
     exec: {
-      build: {
-        cmd: 'node bin/generate.js'
-      }
+      load: { cmd: 'node possan-load.js' },
+      build: { cmd: 'node possan-build.js' },
+      save: { cmd: 'node possan-save.js' }
     },
 
     watch: {
+      sass2: {
+        files: [
+          'testbed/*.scss',
+        ],
+        tasks: [
+          'sass',
+        ]
+      },
       sass: {
         files: [
           '_templates/possan/*.scss',
@@ -31,23 +43,57 @@ module.exports = function(grunt) {
         tasks: [
           'sass',
           'exec:build',
+          'exec:save'
         ]
       },
-      content: {
+      contentfiles: {
         files: [
-          'bin/**/*.js',
-          'lib/**/*.js',
-          '_sites/**',
-          '_static/**',
+          '*.js',
+          'tool/**/*.js',
+          'tool/**/*.js',
           '_content/**',
-          '_templates/**/*.html',
-          '_templates/**/*.css',
+        ],
+        tasks: [
+          'exec:load'
+        ]
+      },
+      contentindex: {
+        files: [
+          '*.js',
+          'tool/**/*.js',
+          'tool/**/*.js',
+          '_temp/content.json',
         ],
         tasks: [
           'exec:build'
         ]
       },
-      output: {
+      outputindex: {
+        files: [
+          '*.js',
+          'tool/**/*.js',
+          'tool/**/*.js',
+          '_static/**',
+          '_temp/output.json'
+        ],
+        tasks: [
+          'exec:save'
+        ]
+      },
+      template: {
+        files: [
+          '*.js',
+          '*.json',
+          'tool/**/*.js',
+          'tool/**/*.js',
+          '_templates/**',
+        ],
+        tasks: [
+          'exec:build',
+          'exec:save'
+        ]
+      },
+      outputfiles: {
         files: ['output/**/*'],
         options: {
           livereload: true,

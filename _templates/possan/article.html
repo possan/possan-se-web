@@ -1,22 +1,27 @@
-<div class="bigheader">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>{{title}}</h1>
-				<p>Mobile Game (IOS + Android)</p>
-				<p>Technologies: This is the article subtitle, information thingy</p>
-			</div>
+{{#cover}}
+<section class="article cover">
+	<header>
+		<div class="background" style="background-image: url({{cover}});"></div>
+		<div class="content">
+			<h1>{{title}}</h1>
+			{{#subtitle}}
+			<p>{{subtitle}}</p>
+			{{/subtitle}}
 		</div>
-	</div>
-</div>
-
-<article class="container">
-	<div class="row">
-	<div class="col-md-8 col-sm-12 col-xs-12 main">
+	</header>
+{{/cover}}
+{{^cover}}
+<section class="article">
+	<header>
+		<div class="content">
+			<h1>{{title}}</h1>
+			{{#subtitle}}
+			<p>{{subtitle}}</p>
+			{{/subtitle}}
+		</div>
+	</header>
+{{/cover}}
+	<div class="main">
 		{{{html}}}
-	</div>
-	<div class="col-md-4 col-sm-12 col-xs-12">
-		<img src="http://lorempixel.com/200/200/">
-	</div>
 	</div>
 </article>

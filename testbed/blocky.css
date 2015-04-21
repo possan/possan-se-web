@@ -1,0 +1,338 @@
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12pt; }
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display SC', serif;
+  margin: 20px 0 10px 0; }
+
+a {
+  text-decoration: none; }
+
+div.group {
+  border-bottom: 2px solid #ddd;
+  margin: 20px 0 30px 0; }
+  div.group h1 {
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 28pt;
+    font-size: 30pt; }
+  div.group h3 {
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 15pt;
+    font-size: 13pt; }
+
+div.articles a.article {
+  width: 50%;
+  box-sizing: border-box;
+  padding-right: 1px;
+  float: left;
+  background-color: transparent;
+  color: inherit; }
+  div.articles a.article header {
+    padding: 0;
+    background-color: transparent;
+    color: inherit;
+    margin: 0 0 40px 0; }
+    div.articles a.article header h1, div.articles a.article header h2 {
+      margin: 0 0 10px 0; }
+    div.articles a.article header p {
+      margin: 0 0 10px 0; }
+  div.articles a.article img {
+    width: 100%; }
+div.articles br {
+  clear: both; }
+
+nav.main {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 999;
+  width: 100%;
+  background-color: transparent;
+  height: 15pt;
+  color: #ccc; }
+  nav.main div.breadcrumbs a {
+    color: #fff;
+    text-decoration: none; }
+    nav.main div.breadcrumbs a.current {
+      font-weight: bold; }
+
+footer {
+  clear: both;
+  border-top: 1px solid #888;
+  padding: 40px 40px;
+  color: #333;
+  height: 100px; }
+  footer a {
+    color: #06c; }
+  footer a:hover {
+    text-decoration: underline; }
+  footer div.inner {
+    position: relative;
+    width: 800px;
+    margin: 0 auto; }
+    footer div.inner div.photo {
+      position: absolute;
+      left: 0;
+      top: 0px; }
+      footer div.inner div.photo img {
+        width: 60px;
+        height: 60px;
+        border-radius: 100px; }
+    footer div.inner div.about {
+      position: absolute;
+      left: 80px;
+      top: 5px;
+      float: left;
+      width: 20%; }
+      footer div.inner div.about h1 {
+        margin: 0;
+        font-size: 20pt; }
+      footer div.inner div.about p {
+        margin: 0; }
+    footer div.inner div.links {
+      position: absolute;
+      left: 400px;
+      top: 5px;
+      float: left;
+      width: 50%;
+      text-align: left;
+      padding: 0 0 20px 0; }
+
+section.articles {
+  clear: both;
+  background-color: #000; }
+  section.articles br {
+    clear: both;
+    width: 100%;
+    height: 0; }
+  section.articles a {
+    width: 50%;
+    height: 250px;
+    padding: 0px;
+    cursor: pointer;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    text-decoration: none;
+    color: inherit; }
+    section.articles a img {
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      z-index: 1; }
+    section.articles a div.delayed {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      height: auto;
+      background-size: cover;
+      background-position: center center;
+      opacity: 0.0;
+      z-index: 2;
+      -webkit-transition: all 1.5s ease-in-out; }
+    section.articles a div.delayed.visible {
+      opacity: 1.0; }
+    section.articles a header {
+      -webkit-transition: background-color 1.0s ease-in-out;
+      background-color: rgba(10, 10, 10, 0.8);
+      color: #fff;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3; }
+      section.articles a header h1 {
+        padding: 20px 20px 10px 20px;
+        font-size: 16pt;
+        text-align: center;
+        box-sizing: border-box; }
+      section.articles a header p {
+        padding: 0px 20px 10px 20px;
+        box-sizing: border-box;
+        opacity: 0.0;
+        -webkit-transition: all 0.3s ease-in-out; }
+    section.articles a:hover header p {
+      opacity: 1.0; }
+    section.articles a.c1 header {
+      background-color: rgba(75, 10, 10, 0.8); }
+    section.articles a.c2 header {
+      background-color: rgba(10, 75, 10, 0.8); }
+    section.articles a.c3 header {
+      background-color: rgba(10, 10, 75, 0.8); }
+    section.articles a.c4 header {
+      background-color: rgba(75, 75, 10, 0.8); }
+    section.articles a.c5 header {
+      background-color: rgba(10, 75, 75, 0.8); }
+    section.articles a.c6 header {
+      background-color: rgba(75, 10, 75, 0.8); }
+    section.articles a.c7 header {
+      background-color: rgba(75, 75, 75, 0.8); }
+
+div.transition {
+  position: absolute;
+  background-color: #fff;
+  z-index: 1000;
+  opacity: 0.0;
+  -webkit-transition: all 0.2s ease-in-out; }
+
+section.article.small div.content {
+  padding: 60px 40px; }
+section.article header {
+  width: 100%;
+  background-color: #f51;
+  color: #fff;
+  position: relative;
+  overflow: hidden; }
+  section.article header div.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0.33;
+    background-position: center center;
+    background-size: cover;
+    -webkit-transition: all 0.33s ease-in-out;
+    -webkit-filter: blur(10px); }
+  section.article header div.content {
+    position: relative;
+    padding: 140px 40px;
+    z-index: 100; }
+  section.article header div.content h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 50pt;
+    margin: 0 0 20px 0;
+    padding: 0; }
+    section.article header div.content h1 a {
+      color: inherit; }
+  section.article header div.content p {
+    text-align: center;
+    width: 100%;
+    font-size: 12pt;
+    margin: 0 0 10px 0;
+    padding: 0; }
+    section.article header div.content p a {
+      color: #fc0; }
+section.article div.main {
+  padding: 0;
+  padding-bottom: 100px; }
+  section.article div.main p > img.inset {
+    width: 50%;
+    margin: 0 0 20px 20px; }
+  section.article div.main p, section.article div.main h1, section.article div.main h2, section.article div.main h3, section.article div.main h4 {
+    padding-left: 20px;
+    padding-right: 20px; }
+  section.article div.main h1, section.article div.main h2, section.article div.main h3, section.article div.main h4 {
+    padding-top: 10px; }
+  section.article div.main > img {
+    width: 100%;
+    margin: 20px 0; }
+
+/* small screen 0 - 500px */
+@media all and (max-width: 500px) {
+  section.articles a {
+    width: 100%; }
+
+  div.articles a.article {
+    width: 100%; }
+
+  section.article header div.content {
+    padding: 100px 20px; }
+    section.article header div.content h1 {
+      width: 100%;
+      text-align: center;
+      font-size: 30pt;
+      margin: 0 0 20px 0;
+      padding: 0; }
+    section.article header div.content p {
+      text-align: center;
+      width: 100%;
+      font-size: 12pt;
+      margin: 0 0 10px 0;
+      padding: 0; }
+  section.article div.main {
+    width: 100%; }
+    section.article div.main > img {
+      width: 100%;
+      margin: 20px 0; } }
+/* small tablet 600 - 1000px */
+@media all and (min-width: 501px) and (max-width: 801px) {
+  section.article div.main p > img.inset {
+    width: 50%;
+    margin: 0 0 20px 20px; } }
+@media all and (max-width: 801px) {
+  footer div.inner {
+    width: 100%;
+    text-align: center; }
+    footer div.inner div.photo {
+      position: relative;
+      left: auto;
+      top: auto;
+      clear: both;
+      float: none;
+      width: 100%;
+      margin: 0 auto 20px auto; }
+    footer div.inner div.about {
+      position: relative;
+      left: auto;
+      top: auto;
+      clear: both;
+      float: none;
+      width: 100%;
+      margin: 0 auto 10px auto; }
+    footer div.inner div.links {
+      position: relative;
+      left: auto;
+      top: auto;
+      clear: both;
+      float: none;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      text-align: center; } }
+/* bigger */
+@media all and (min-width: 801px) {
+  section.articles a {
+    width: 33.333%;
+    height: 250px;
+    float: left; }
+
+  section.article div.main {
+    width: 800px;
+    margin: 0 auto; }
+
+  section.article div.main {
+    padding-top: 0px; }
+    section.article div.main > img {
+      width: 100%; }
+
+  section.article div.main p, section.article div.main h1, section.article div.main h2, section.article div.main h3, section.article div.main h4 {
+    padding-left: 0px;
+    padding-right: 0px; }
+  section.article div.main p > img.inset {
+    width: 33%;
+    margin: 0 0 20px 20px; } }
+/* bigger */
+@media all and (min-width: 1200px) {
+  section.articles a {
+    width: 25%;
+    height: 250px;
+    float: left; } }
+
+/*# sourceMappingURL=blocky.css.map */

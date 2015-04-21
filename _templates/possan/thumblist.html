@@ -1,0 +1,47 @@
+
+
+<section class="article">
+	<header>
+		<!-- <div class="background" style="background-image: url(http://lorempixel.com/800/400/)"></div> -->
+		<div class="content">
+			<h1>{{title}}</h1>
+			{{#subtitle}}
+			<p>{{subtitle}}</p>
+			{{/subtitle}}
+		</div>
+	</header>
+	<div class="main">
+
+
+	{{#lists}}
+
+		<div class="group">
+			<h1><a href="{{link}}">{{title}}</a></h1>
+			{{#comment}}
+			<p>{{comment}}</p>
+			{{/comment}}
+		</div>
+		<div class="articles">
+
+		{{#items}}
+
+
+
+
+			<a href="{{link}}" class="article">
+				<img src="{{coverthumb}}" data-highres="{{coverthumb2x}}" />
+				<header>
+					<h2>{{title}}</h2>
+					<p>{{comment}}</p>
+				</header>
+			</a>
+
+		{{/items}}
+
+		<br/>
+		</div>
+
+	{{/lists}}
+
+	</div>
+</article>
