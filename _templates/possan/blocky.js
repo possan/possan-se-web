@@ -13,6 +13,7 @@
 
 
 	var last_transition;
+	var new_page;
 
 	function expandFromPage(callback) {
 		console.log('expandFromPage');
@@ -121,7 +122,10 @@
 		var el = document.createElement('div');
 		el.className = 'pagewrapper';
 		el.innerHTML = html;
+		el.style.opacity = 0.0;
 		prepareLinksInElement(el);
+
+		new_page = el;
 
 		var old = [];
 		var root = document.getElementById('pagestack');
@@ -136,13 +140,19 @@
 	}
 
 	function fadeInNewPage(callback) {
+		window.scrollTo(0, 0);
+
+		if (new_page != null) {
+			new_page.style.opacity = 1.0;
+		}
+
 		setTimeout(function() {
 			if (last_transition != null) {
 				last_transition.style.opacity = 0.0;
 			}
 			// el2.style.top = '100%';
 			// el2.style.height =  '100%';
-		}, 1);
+		}, 150);
 
 		setTimeout(function() {
 			if (last_transition != null) {
@@ -150,7 +160,7 @@
 			}
 			last_transition = null;
 			callback();
-		}, 1000);
+		}, 600);
 	}
 
 	function removeOldPages(old) {
