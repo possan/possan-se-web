@@ -12,44 +12,50 @@
 		{{/canonical_url}}
 	</head>
 	<body>
-<nav class="main">
-	<div class="breadcrumbs">
-		<a href="/" class="site current">possan.se</a>
-		{{#breadcrumbs}}
-			| <a href="{{link}}"{{#current}} class="current"{{/current}}>{{title}}</a>
-		{{/breadcrumbs}}
-		{{^breadcrumbs}}
-			| <a href="/projects">projects</a>
-			<!-- | <a href="/posts">posts</a> -->
-			<!-- | <a href="/about">about</a> -->
-		{{/breadcrumbs}}
-	</div>
-</nav>
+		<div id="pagestack">
+			<div class="pagewrapper" id="firstpage">
+				<!--MARK1-->
+				<nav class="main">
+					<div class="breadcrumbs">
+						<a href="/" data-linktransition="swoosh" class="site current">possan.se</a>
+						{{#breadcrumbs}}
+							| <a href="{{link}}" data-linktransition="swoosh" {{#current}} class="current"{{/current}}>{{title}}</a>
+						{{/breadcrumbs}}
+						{{^breadcrumbs}}
+							| <a href="/projects" data-linktransition="swoosh">projects</a>
+							<!-- | <a href="/posts">posts</a> -->
+							<!-- | <a href="/about">about</a> -->
+						{{/breadcrumbs}}
+					</div>
+				</nav>
 
-		{{{innerhtml}}}
+				{{{innerhtml}}}
 
-		<footer>
-			<div class="inner">
-				<div class="photo">
-					<img src="http://lorempixel.com/200/200" />
-				</div>
-				<div class="about">
-					<p>
-						<b>Hello!</b><br/>
-						I like tinkering
-					</p>
-				</div>
-				<div class="links">
-					You can find me here:
-					<a href="#">Twitter</a>
-					<a href="#">GitHub</a>
-					<a href="#">Facebook</a>
-					<a href="#">LinkedIn</a>
-					<a href="#">Flickr</a>
-					<a href="#">Spotify</a>
-				</div>
+				<footer>
+					<div class="inner">
+						<div class="photo">
+							<img src="http://lorempixel.com/200/200" />
+						</div>
+						<div class="about">
+							<p>
+								<b>Hello!</b><br/>
+								I like tinkering
+							</p>
+						</div>
+						<div class="links">
+							You can find me here:
+							<a href="#">Twitter</a>
+							<a href="#">GitHub</a>
+							<a href="#">Facebook</a>
+							<a href="#">LinkedIn</a>
+							<a href="#">Flickr</a>
+							<a href="#">Spotify</a>
+						</div>
+					</div>
+				</footer>
 			</div>
-		</footer>
+			<!--MARK2-->
+		</div>
 		<script type="text/javascript" src="/blocky.js"></script>
 	</body>
 </html>

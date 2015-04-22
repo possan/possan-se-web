@@ -14,7 +14,7 @@
 
 		{{#lists}}
 		<div class="group">
-			<h1><a href="{{link}}">{{title}}</a></h1>
+			<h1><a href="{{link}}" data-linktransition="slide">{{title}}</a></h1>
 			{{#comment}}
 			<p>{{comment}}</p>
 			{{/comment}}
@@ -23,7 +23,7 @@
 		<p>
 			{{#items}}
 				{{commentbefore}}
-				<a href="{{link}}">
+				<a href="{{link}}" data-linktransition="slide">
 					{{title}}
 				</a>
 				{{comment}}
@@ -35,7 +35,7 @@
 		{{#items}}
 		<p class="list">
 			{{commentbefore}}
-			<a href="{{link}}">
+			<a href="{{link}}" data-linktransition="slide">
 				{{title}}
 			</a>
 			{{comment}}

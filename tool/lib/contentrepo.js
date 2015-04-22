@@ -7,7 +7,7 @@ var ContentRepository = function(config) {
 	this.config = config;
 }
 
-ContentRepository.prototype.startingSlash = function(path) {
+var startingSlash = function(path) {
 	if (path && path.substring(0,1) != '/')
 		return '/' + path;
 	return path;
@@ -17,7 +17,8 @@ ContentRepository.prototype.addDocument = function(doc) {
 	// console.log('Adding document', doc);
 	doc.type = doc.type || 'document';
 	doc.subtype = doc.subtype || 'unknown';
-	doc.target_path = this.startingSlash(doc.target_path);
+	doc.target_path = startingSlash(doc.target_path);
+	doc.local_url = doc.target_path;
 	doc.canonical_url = this.config.baseurl + doc.target_path;
 	// doc._html = doc.html;
 	delete(doc.html);
@@ -72,7 +73,7 @@ ContentRepository.prototype.load = function(filename) {
 ContentRepository.prototype.addReference = function(sourcepath, targetlocalpath) {
 	// console.log('addReference', sourcepath, targetlocalpath);
 
-	targetlocalpath = this.startingSlash(targetlocalpath);
+	targetlocalpath = startingSlash(targetlocalpath);
 
 	var dupe = false;
 
@@ -96,7 +97,7 @@ ContentRepository.prototype.addReference = function(sourcepath, targetlocalpath)
 ContentRepository.prototype.addStatic = function(sourcepath, targetlocalpath) {
 	// console.log('addStatic', sourcepath, targetlocalpath);
 
-	targetlocalpath = this.startingSlash(targetlocalpath);
+	targetlocalpath = startingSlash(targetlocalpath);
 
 	var dupe = false;
 
@@ -117,7 +118,7 @@ ContentRepository.prototype.addStatic = function(sourcepath, targetlocalpath) {
 }
 
 ContentRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath) {
-	// console.log('addThumbnail', imagename, ids, sourcefolder);
+	console.log('addThumbnail', imagename, ids, sourcefolder, targetlocalpath);
 
 	if (!imagename) {
 		var mapping = {};
@@ -148,12 +149,12 @@ ContentRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder
 
 		var newfilename = prefix + '-' + id + ext;
 
-		var targetlocalpath = this.startingSlash(pathmodule.join(targetlocalpath, newfilename));
+		var targetlocalpath2 = startingSlash(pathmodule.join(targetlocalpath, newfilename));
 
 		var obj = {
 			type: 'thumbnail',
 			source_path: srcpath,
-			target_path: targetlocalpath,
+			target_path: targetlocalpath2,
 			transform: xform
 		};
 

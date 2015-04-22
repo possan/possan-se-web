@@ -1,5 +1,6 @@
 var Q = require('q');
 var fs = require('fs');
+var MarkdownProcessor = require('./tool/lib/markdownprocessor.js').MarkdownProcessor;
 var pathmodule = require('path');
 var Builder = require('./tool/lib/builder.js').Builder;
 var TemplateDefinition = require('./_templates/possan/template.js').TemplateDefinition;
@@ -193,12 +194,26 @@ Site.prototype._renderMarkdownToDocument = function(target_path, templatename, d
 	console.log('Rendering markdown template document: ' + target_path);
 	var _this = this;
 	var future = Q.defer();
-	data.html = data.markdown; // TODO: fixa!
-	var innerhtml = _this.templatecache.render(_this.config.defaulttemplate, templatename, data);
-	data.innerhtml = innerhtml;
-	var outerhtml = _this.templatecache.render(_this.config.defaulttemplate, 'layout', data);
-	this.outputrepo.addDocument(target_path, outerhtml);
-	future.resolve();
+
+	data.local_url = target_path;
+
+console.log('data', data);
+
+	MarkdownProcessor.process(data.source_path, _this.contentrepo, _this.config, data.markdown).then(function(data2) {
+
+console.log('data2', data2);
+
+		data.html = data2.html; // TODO: fixa!
+		var innerhtml = _this.templatecache.render(_this.config.defaulttemplate, templatename, data);
+		data.innerhtml = innerhtml;
+		var outerhtml = _this.templatecache.render(_this.config.defaulttemplate, 'layout', data);
+		_this.outputrepo.addDocument(target_path, outerhtml);
+
+// console.log('x');
+		future.resolve();
+
+	});
+
 	return future.promise;
 }
 
@@ -206,6 +221,7 @@ Site.prototype._renderToDocument = function(target_path, templatename, data) {
 	console.log('Rendering template document: ' + target_path);
 	var _this = this;
 	var future = Q.defer();
+	data.local_url = target_path;
 	var innerhtml = _this.templatecache.render(_this.config.defaulttemplate, templatename, data);
 	data.innerhtml = innerhtml;
 	var outerhtml = _this.templatecache.render(_this.config.defaulttemplate, 'layout', data);
@@ -228,7 +244,7 @@ Site.prototype.prepareIndex = function() {
 		var all = [].concat(all_blogposts).concat(all_projects);
 		this.sortByDate(all, true);
 		all = all.slice(0, 12);
-		// console.log('all', all);
+		console.log('all', all[0]);
 		proms.push(this._renderToDocument('/', 'index', {
 			title: 'Hello!',
 			latest: all
@@ -511,5 +527,3 @@ builder.build('_temp/content.json').then(function() {
 	builder.save('_temp/output.json');
 	console.log('Site structure saved.');
 });
-
-
