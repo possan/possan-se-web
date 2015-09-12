@@ -3,8 +3,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-http-server');
 
   grunt.initConfig({
+
+    'http-server': {
+      'dev': {
+        root: 'output/',
+        port: 8000,
+        runInBackground: true,
+      }
+    },
 
     sass: {
       template: {
@@ -50,7 +59,6 @@ module.exports = function(grunt) {
         files: [
           '*.js',
           'tool/**/*.js',
-          'tool/**/*.js',
           '_content/**',
         ],
         tasks: [
@@ -60,7 +68,6 @@ module.exports = function(grunt) {
       contentindex: {
         files: [
           '*.js',
-          'tool/**/*.js',
           'tool/**/*.js',
           '_temp/content.json',
         ],
@@ -72,7 +79,6 @@ module.exports = function(grunt) {
         files: [
           '*.js',
           'tool/**/*.js',
-          'tool/**/*.js',
           '_static/**',
           '_temp/output.json'
         ],
@@ -83,8 +89,6 @@ module.exports = function(grunt) {
       template: {
         files: [
           '*.js',
-          '*.json',
-          'tool/**/*.js',
           'tool/**/*.js',
           '_templates/**',
         ],
@@ -103,5 +107,8 @@ module.exports = function(grunt) {
     },
 
   });
+
+  grunt.registerTask('dev', ['http-server', 'exec:load', 'exec:build', 'exec:save', 'watch']);
+
 
 }
