@@ -5,68 +5,7 @@ var pathmodule = require('path');
 var Builder = require('./tool/lib/builder.js').Builder;
 var TemplateDefinition = require('./_templates/possan/template.js').TemplateDefinition;
 
-var config = {
-	"contentfolders": [
-		"_content/blogposts/**/*.md",
-		"_content/projects/**/*.md",
-		"_content/misc/**/*.md"
-	],
-	"staticfolders": [
-		{
-			"src": "_static/",
-			"target": "static/"
-		}
-	],
-	"cdn": [
-		{
-			"local": "static/",
-			"server": "http://cloudfjont/"
-		}
-	],
-	"templatefolder": "_templates/",
-	"defaulttemplate": "possan",
-	"outputfolder": "output/",
-	"baseurl": "http://www.possan.se/",
-	"cdnurl": "http://static.possan.se/",
-	"imagetemplates": [
-		{
-			"id": "default",
-			"mode": "fit"
-		},
-		{
-			"id": "smallcover",
-			"mode": "fill",
-			"width": "300",
-			"height": "150"
-		},
-		{
-			"id": "smallcover2x",
-			"mode": "fill",
-			"width": "600",
-			"height": "300"
-		},
-		{
-			"id": "side",
-			"mode": "fit",
-			"maxwidth": "300"
-		},
-		{
-			"id": "side2x",
-			"mode": "fit",
-			"maxwidth": "600"
-		},
-		{
-			"id": "full",
-			"mode": "fit",
-			"maxwidth": "800"
-		},
-		{
-			"id": "full2x",
-			"mode": "fit",
-			"maxwidth": "1600"
-		}
-	]
-}
+var config = require('./possan-config.js');
 
 function twodigit(n) {
 	var ret = '' + n;
@@ -197,11 +136,11 @@ Site.prototype._renderMarkdownToDocument = function(target_path, templatename, d
 
 	data.local_url = target_path;
 
-console.log('data', data);
+// console.log('data', data);
 
-	MarkdownProcessor.process(data.source_path, _this.contentrepo, _this.config, data.markdown).then(function(data2) {
+	MarkdownProcessor.process(data.source_path, _this.contentrepo, _this.config, data.markdown, data, _this.outputrepo).then(function(data2) {
 
-console.log('data2', data2);
+// console.log('data2', data2);
 
 		data.html = data2.html; // TODO: fixa!
 		var innerhtml = _this.templatecache.render(_this.config.defaulttemplate, templatename, data);
@@ -488,7 +427,7 @@ Site.prototype.prepareRest = function() {
 			if (doc.written)
 				return;
 
-			if (doc.target_path && doc.type == 'static') {
+			if (doc.target_path && (doc.type == 'static' || doc.type == 'reference')) {
 				doc.written = true;
 				console.log('Unwritten static file: ' + doc.target_path);
 

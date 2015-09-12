@@ -3,6 +3,7 @@ var pathmodule = require('path');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
 var fsextra = require('fs-extra');
+var child_process = require('child_process');
 
 var OutputWriter = function(config, outputrepo, outputfolder) {
 	this.config = config;
@@ -28,15 +29,45 @@ OutputWriter.prototype.writeOneDocument = function(doc) {
 OutputWriter.prototype.generateOneThumbnail = function(doc) {
 	var future = Q.defer();
 	// console.log('copyOneStatic', doc.target_path, doc);
-	var src = doc.src;
+	var src = doc.source_path;
 	var dest = pathmodule.join(this.outputfolder, doc.target_path);
+
+
+
+
 	console.log('Copying and transforming ' + src + ' to ' + dest, doc.transform);
+
+
+
+
+
+	var cmd = '';
+
+	if (doc.transform.mode == 'fit') {
+		if (doc.transform.maxwidth) {
+			cmd = 'convert "' + src + '" -resize "' + doc.transform.maxwidth + '" "' + dest + '"';
+		}
+	}
+
+	if (cmd == '') {
+		cmd = 'convert "' + src + '" "' + dest + '"';
+	}
+
+	console.log('Command: ' + cmd);
+
+	var child = child_process.exec(cmd)
+	child.stdout.pipe(process.stdout)
+	child.on('exit', function() {
+		future.resolve(true);
+	});
+
+/*
 	try {
 		fsextra.copySync(src, dest);
 	} catch(e) {
 		console.error(e);
 	}
-	future.resolve(true);
+*/
 	return future.promise;
 }
 
@@ -59,6 +90,7 @@ OutputWriter.prototype.writeSingle = function(doc) {
 	// console.log('writeSingle', doc);
 	switch(doc.type) {
 		case 'static':
+		case 'reference':
 			return this.copyOneStaticFile(doc);
 
 		case 'thumbnail':

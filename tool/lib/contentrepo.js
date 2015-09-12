@@ -158,12 +158,12 @@ ContentRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder
 			transform: xform
 		};
 
-		// console.log('adding static', obj);
-		// _this.statics.push(obj);
 		_this.documents.push(obj);
 
-		mapping[id] = '/' + obj.dest;
+		mapping[id] = obj.target_path;
 	});
+
+	console.log('returning', mapping);
 
 	return mapping;
 }

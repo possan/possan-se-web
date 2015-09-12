@@ -76,6 +76,57 @@ OutputRepository.prototype.addStatic = function(sourcepath, targetlocalpath, tra
 	});
 }
 
+
+OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath) {
+	// console.log('addThumbnail', imagename, ids, sourcefolder, targetlocalpath);
+
+	if (!imagename) {
+		var mapping = {};
+		ids.forEach(function(id) {
+			mapping[id] = null;
+		});
+		return mapping;
+	}
+
+
+	var _this = this;
+
+	var srcpath = pathmodule.join( sourcefolder, imagename );
+	var ext = pathmodule.extname(imagename);
+	var prefix = pathmodule.basename(imagename, ext);
+
+	var mapping = {};
+
+	ids.forEach(function(id) {
+
+		var xform = {};
+
+		if (_this.config.imagetemplates) _this.config.imagetemplates.forEach(function(tmpl) {
+			if (tmpl.id == id) {
+				xform = tmpl;
+			}
+		});
+
+		var newfilename = prefix + '-' + id + ext;
+
+		var targetlocalpath2 = pathmodule.join(targetlocalpath, newfilename);
+
+		var obj = {
+			type: 'thumbnail',
+			source_path: srcpath,
+			target_path: _this.noStartingSlash(targetlocalpath2),
+			transform: xform
+		};
+
+		_this.documents.push(obj);
+
+		mapping[id] = targetlocalpath2;
+	});
+
+	return mapping;
+}
+
+/*
 OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath) {
 	console.log('addThumbnail', imagename, ids, sourcefolder);
 
@@ -115,6 +166,7 @@ OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder,
 
 	return mapping;
 }
+*/
 
 OutputRepository.prototype.save = function(filepath) {
 	var blob = JSON.stringify(this.documents, null, 2);
@@ -122,8 +174,12 @@ OutputRepository.prototype.save = function(filepath) {
 }
 
 OutputRepository.prototype.load = function(filepath) {
-	var blob = fs.readFileSync(filepath, 'UTF-8');
-	this.documents = JSON.parse(blob);
+	this.documents = [];
+	try {
+		var blob = fs.readFileSync(filepath, 'UTF-8');
+		this.documents = JSON.parse(blob);
+	} catch(e) {
+	}
 }
 
 exports.OutputRepository = OutputRepository;

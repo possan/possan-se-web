@@ -9,11 +9,13 @@ var domser = require('dom-serializer');
 var MarkdownProcessor = function() {
 }
 
-MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw) {
+MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw, data, outputrepo) {
 	var future = Q.defer();
 
 	// var contentfolder = path.dirname(filepath);
-	console.log('Globbing contentfolder: ' + contentfolder);
+	console.log('Globbing contentfolder: ' + contentfolder, data);
+
+	var contentbasefolder = path.dirname(contentfolder);
 
 	var d;
 
@@ -32,16 +34,18 @@ MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw) {
 			var cls = domnode.attribs['class'] || '';
 
 			var src = domnode.attribs.src;
-			if (src.indexOf('://') == -1) {
+			if (src.indexOf('://') == -1 && src.indexOf('.gif') == -1) {
 				if (cls.indexOf('side') != -1) {
-					var rr = contentrepo.addThumbnail(src, ['side', 'side2x'], contentfolder, contentfolder);
+					var rr = outputrepo.addThumbnail(src, ['side', 'side2x'], contentbasefolder, d.metadata.target_path);
 					domnode.attribs.src = rr['side'];
-					domnode.attribs['data-highres'] = rr['side2x'];
+					// domnode.attribs['data-highres'] = rr['side2x'];
+					domnode.attribs['srcset'] = rr['side'] + ' 1x, ' + rr['side2x'] + ' 2x'
 				} else {
-					var rr = contentrepo.addThumbnail(src, ['full', 'full2x'], contentfolder, contentfolder);
+					var rr = outputrepo.addThumbnail(src, ['full', 'full2x'], contentbasefolder, d.metadata.target_path);
 					domnode.attribs['class'] = (cls + ' full').trim();
 					domnode.attribs.src = rr['full'];
-					domnode.attribs['data-highres'] = rr['full2x'];
+					// domnode.attribs['data-highres'] = rr['full2x'];
+					domnode.attribs['srcset'] = rr['full'] + ' 1x, ' + rr['full2x'] + ' 2x'
 				}
 			}
 		}
@@ -76,6 +80,13 @@ MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw) {
 		console.log('got raw', raw.length);
 		d = wmd(raw, {});
 
+		d.metadata.markdown = d.markdown;
+		d.metadata.attachments = attachments;
+		d.metadata.contentfolder = contentfolder;
+		d.metadata.target_path = data.target_path;
+
+		console.log('d.metadata', d.metadata);
+
 		var handler = new htmlparser2.DomHandler(function (error, dom) {
 			// console.log('domhandler', error, dom);
 			updateDomChildren(dom);
@@ -84,14 +95,11 @@ MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw) {
 			// console.log('newhtml', newhtml);
 			// console.log('newhtml', d.metadata);
 
-			d.metadata.markdown = d.markdown;
 			d.metadata.html = newhtml;
-			d.metadata.attachments = attachments;
-			d.metadata.contentfolder = contentfolder;
-			d.metadata.target_path = '/' + d.metadata.path;
+
 			// d._path = filepath;
 
-			var tmp = contentrepo.addThumbnail(d.metadata.cover, ['smallcover', 'smallcover2x'], contentfolder, d.metadata.path);
+			var tmp = outputrepo.addThumbnail(d.metadata.cover, ['smallcover', 'smallcover2x'], contentbasefolder, d.metadata.target_path);
 			d.metadata.coverthumb = tmp['smallcover'];
 			d.metadata.coverthumb2x = tmp['smallcover2x'];
 
