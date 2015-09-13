@@ -39,15 +39,15 @@
 
 		setTimeout(function() {
 			el2.style.opacity = 1.0;
-		}, 50);
+		}, 10);
 
 		setTimeout(function() {
 			el2.style.height = '100%';
-		}, 400);
+		}, 300);
 
 		setTimeout(function() {
 			callback();
-		}, 500);
+		}, 600);
 	}
 
 	function expandFromBigMenu(evt, el, callback) {
@@ -179,11 +179,16 @@
 				// Success!
 				var html = request.responseText;
 				var m1 = html.indexOf('<!--MARK1-->');
-				var m2 = html.indexOf('<!--MARK2-->');
-				if (m1 != -1 && m2 != -1) {
-
-					html = html.substring(m1 + 12 , (m2 - m1) - 12);
-					callback(html);
+				console.log(html);
+				if (m1 != -1) {
+					html = html.substring(m1 + 12);
+					var m2 = html.indexOf('<!--MARK2-->');
+					if (m2 != -1) {
+						html = html.substring(0, m2);
+						callback(html);
+					} else {
+						callback('');
+					}
 				} else {
 					callback('');
 				}

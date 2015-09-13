@@ -77,8 +77,8 @@ OutputRepository.prototype.addStatic = function(sourcepath, targetlocalpath, tra
 }
 
 
-OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath) {
-	// console.log('addThumbnail', imagename, ids, sourcefolder, targetlocalpath);
+OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath, targetlocalpath2) {
+	 console.log('addThumbnail', imagename, ids, sourcefolder, targetlocalpath, targetlocalpath2);
 
 	if (!imagename) {
 		var mapping = {};
@@ -88,6 +88,16 @@ OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder,
 		return mapping;
 	}
 
+	if (imagename.indexOf('.gif') != -1) {
+		console.log('found gif, don\'t resize!', imagename);
+		var mapping = {};
+		ids.forEach(function(id) {
+			var targetlocalpath6 = pathmodule.join(targetlocalpath, imagename);
+			console.log('targetlocalpath6', targetlocalpath6);
+			mapping[id] = targetlocalpath6;
+		});
+		return mapping;
+	}
 
 	var _this = this;
 
@@ -101,7 +111,7 @@ OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder,
 
 		var xform = {};
 
-		if (_this.config.imagetemplates) _this.config.imagetemplates.forEach(function(tmpl) {
+		if (_this.config.imagetemplaß) _this.config.imagetemplates.forEach(function(tmpl) {
 			if (tmpl.id == id) {
 				xform = tmpl;
 			}
@@ -109,64 +119,23 @@ OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder,
 
 		var newfilename = prefix + '-' + id + ext;
 
-		var targetlocalpath2 = pathmodule.join(targetlocalpath, newfilename);
+		var targetlocalpath50 = pathmodule.join(targetlocalpath, newfilename);
 
 		var obj = {
 			type: 'thumbnail',
 			source_path: srcpath,
-			target_path: _this.noStartingSlash(targetlocalpath2),
+			target_path: _this.noStartingSlash(targetlocalpath50),
 			transform: xform
 		};
 
 		_this.documents.push(obj);
 
-		mapping[id] = targetlocalpath2;
+		mapping[id] = targetlocalpath50;
 	});
 
 	return mapping;
 }
 
-/*
-OutputRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder, targetlocalpath) {
-	console.log('addThumbnail', imagename, ids, sourcefolder);
-
-	if (!imagename) {
-		var mapping = {};
-		ids.forEach(function(id) {
-			mapping[id] = null;
-		});
-		return mapping;
-	}
-
-
-	var _this = this;
-
-	var srcpath = pathmodule.join( sourcefolder, imagename );
-	var ext = pathmodule.extname(imagename);
-	var prefix = pathmodule.basename(imagename, ext);
-
-	var mapping = {};
-
-	ids.forEach(function(id) {
-
-		var xform = {};
-
-		if (_this.config.imagetemplates) _this.config.imagetemplates.forEach(function(tmpl) {
-			if (tmpl.id == id) {
-				xform = tmpl;
-			}
-		});
-
-		var newfilename = prefix + '-' + id + ext;
-
-		_this.addStatic(srcpath, _this.noStartingSlash(pathmodule.join(targetlocalpath, newfilename)), xform);
-
-		mapping[id] = '/' + obj.dest;
-	});
-
-	return mapping;
-}
-*/
 
 OutputRepository.prototype.save = function(filepath) {
 	var blob = JSON.stringify(this.documents, null, 2);

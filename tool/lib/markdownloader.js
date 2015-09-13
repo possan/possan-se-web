@@ -86,9 +86,12 @@ MarkdownLoader.loadFile = function(filepath, contentrepo, config) {
 		// d.contentfolder = contentfolder;
 		// d._path = filepath;
 
-		// var tmp = contentrepo.addThumbnail(d.cover, ['smallcover', 'smallcover2x'], contentfolder, d.path);
-		// d.coverthumb = tmp['smallcover'];
-		// d.coverthumb2x = tmp['smallcover2x'];
+		if (d.cover) {
+			var tmp = contentrepo.addThumbnail(d.cover, ['smallcover', 'smallcover2x'], contentfolder, d.path);
+			d.coverthumb = tmp['smallcover'];
+			d.coverthumb2x = tmp['smallcover2x'];
+		}
+
 		delete(d.path);
 		contentrepo.addDocument(d);
 

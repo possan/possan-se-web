@@ -13,7 +13,7 @@
 <section class="articles">
 	{{#latest}}
 	<a href="{{local_url}}" data-linktransition="boxzoom" class="article">
-		<img src="{{coverthumb}}" data-highres="{{coverthumb2x}}" />
+		<img src="{{coverthumb}}" srcset="{{coverthumb}} 1x, {{coverthumb2x}} 2x" />
 		<header>
 			<h1>{{title}}</h1>
 			{{#subtitle}}

@@ -128,10 +128,23 @@ ContentRepository.prototype.addThumbnail = function(imagename, ids, sourcefolder
 		return mapping;
 	}
 
+	var srcpath = pathmodule.join( sourcefolder, imagename );
+
+	if (imagename.indexOf('.gif') != -1) {
+		console.log('found gif, don\'t resize!', imagename);
+		var mapping = {};
+		ids.forEach(function(id) {
+			var targetlocalpath2 = startingSlash(pathmodule.join(targetlocalpath, imagename));
+			console.log('targetlocalpath2', targetlocalpath2);
+			mapping[id] = targetlocalpath2;
+		});
+		return mapping;
+	}
 
 	var _this = this;
 
-	var srcpath = pathmodule.join( sourcefolder, imagename );
+	console.log('srcpath', srcpath);
+
 	var ext = pathmodule.extname(imagename);
 	var prefix = pathmodule.basename(imagename, ext);
 

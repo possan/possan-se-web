@@ -62,7 +62,8 @@ module.exports = function(grunt) {
           '_content/**',
         ],
         tasks: [
-          'exec:load'
+          'exec:load',
+          'exec:build'
         ]
       },
       contentindex: {
@@ -72,7 +73,8 @@ module.exports = function(grunt) {
           '_temp/content.json',
         ],
         tasks: [
-          'exec:build'
+          'exec:build',
+          'exec:save'
         ]
       },
       outputindex: {

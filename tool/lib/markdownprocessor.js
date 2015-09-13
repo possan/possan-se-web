@@ -34,14 +34,14 @@ MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw, da
 			var cls = domnode.attribs['class'] || '';
 
 			var src = domnode.attribs.src;
-			if (src.indexOf('://') == -1 && src.indexOf('.gif') == -1) {
+			if (src.indexOf('://') == -1) {
 				if (cls.indexOf('side') != -1) {
-					var rr = outputrepo.addThumbnail(src, ['side', 'side2x'], contentbasefolder, d.metadata.target_path);
+					var rr = outputrepo.addThumbnail(src, ['side', 'side2x'], contentbasefolder, d.metadata.target_path, d.metadata.target_path+'/');
 					domnode.attribs.src = rr['side'];
 					// domnode.attribs['data-highres'] = rr['side2x'];
 					domnode.attribs['srcset'] = rr['side'] + ' 1x, ' + rr['side2x'] + ' 2x'
 				} else {
-					var rr = outputrepo.addThumbnail(src, ['full', 'full2x'], contentbasefolder, d.metadata.target_path);
+					var rr = outputrepo.addThumbnail(src, ['full', 'full2x'], contentbasefolder, d.metadata.target_path, d.metadata.target_path+'/');
 					domnode.attribs['class'] = (cls + ' full').trim();
 					domnode.attribs.src = rr['full'];
 					// domnode.attribs['data-highres'] = rr['full2x'];
@@ -99,15 +99,16 @@ MarkdownProcessor.process = function(contentfolder, contentrepo, config, raw, da
 
 			// d._path = filepath;
 
-			var tmp = outputrepo.addThumbnail(d.metadata.cover, ['smallcover', 'smallcover2x'], contentbasefolder, d.metadata.target_path);
-			d.metadata.coverthumb = tmp['smallcover'];
-			d.metadata.coverthumb2x = tmp['smallcover2x'];
+			if (d.metadata.cover) {
+				var tmp = outputrepo.addThumbnail(d.metadata.cover, ['smallcover', 'smallcover2x'], contentbasefolder, d.metadata.target_path, d.metadata.target_path+'/');
+				d.metadata.coverthumb = tmp['smallcover'];
+				d.metadata.coverthumb2x = tmp['smallcover2x'];
+			}
 
 			// contentrepo.addDocument(d.metadata);
-
 			setTimeout(function() {
 				future.resolve(d.metadata);
-			}, 50);
+			}, 5);
 		});
 
 		var parser2 = new htmlparser2.Parser(handler);

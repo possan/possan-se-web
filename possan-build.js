@@ -427,7 +427,10 @@ Site.prototype.prepareRest = function() {
 			if (doc.written)
 				return;
 
-			if (doc.target_path && (doc.type == 'static' || doc.type == 'reference')) {
+			if (!doc.target_path)
+				return;
+
+			if (doc.type == 'static' || doc.type == 'reference') {
 				doc.written = true;
 				console.log('Unwritten static file: ' + doc.target_path);
 
@@ -438,6 +441,12 @@ Site.prototype.prepareRest = function() {
 				// _this.outputrepo.addDocument(doc.target_path, outerhtml);
 				_this.outputrepo.addStatic(doc.source_path, doc.target_path);
 			}
+
+			if (doc.type == 'thumbnail') {
+				doc.written = true;
+				console.log('Unwritten thumbnail file: ' + doc.target_path);
+				_this.outputrepo.documents.push(doc);
+			};
 		});
 	}
 
