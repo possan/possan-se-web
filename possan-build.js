@@ -136,21 +136,19 @@ Site.prototype._renderMarkdownToDocument = function(target_path, templatename, d
 
 	data.local_url = target_path;
 
-// console.log('data', data);
+	// console.log('data', data);
 
 	MarkdownProcessor.process(data.source_path, _this.contentrepo, _this.config, data.markdown, data, _this.outputrepo).then(function(data2) {
 
-// console.log('data2', data2);
-
+		// console.log('data2', data2);
 		data.html = data2.html; // TODO: fixa!
 		var innerhtml = _this.templatecache.render(_this.config.defaulttemplate, templatename, data);
 		data.innerhtml = innerhtml;
 		var outerhtml = _this.templatecache.render(_this.config.defaulttemplate, 'layout', data);
 		_this.outputrepo.addDocument(target_path, outerhtml);
 
-// console.log('x');
+		// console.log('x');
 		future.resolve();
-
 	});
 
 	return future.promise;
@@ -243,6 +241,7 @@ Site.prototype.prepareProjects = function() {
 		// outdoc.innerhtml = innerhtml;
 		// var outerhtml = _this.templatecache.render(_this.config.defaulttemplate, 'layout', outdoc);
 		// this.outputrepo.addDocument('projects', outerhtml);
+		console.log('---- outdoc', outdoc);
 		proms.push(this._renderToDocument('projects', 'thumblist', outdoc));
 	}
 

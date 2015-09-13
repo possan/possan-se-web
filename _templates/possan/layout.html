@@ -22,7 +22,7 @@
 							| <a href="{{link}}" data-linktransition="swoosh" {{#current}} class="current"{{/current}}>{{title}}</a>
 						{{/breadcrumbs}}
 						{{^breadcrumbs}}
-							| <a href="/projects" data-linktransition="swoosh">projects</a>
+							<!-- | <a href="/projects" data-linktransition="swoosh">projects</a> -->
 							<!-- | <a href="/posts">posts</a> -->
 							<!-- | <a href="/about">about</a> -->
 						{{/breadcrumbs}}
@@ -32,24 +32,38 @@
 				{{{innerhtml}}}
 
 				<footer>
-					<div class="inner">
-						<div class="photo">
-							<img src="http://lorempixel.com/200/200" />
+					<div class="line1">
+						<div class="inner">
+							<div class="col1">
+								<b>POSSAN.SE</b>
+							</div>
+							<div class="col2">
+								<a href="/">HOME</a>
+								&middot;
+								<a href="/projects">PROJECTS</a>
+								&middot;
+								<a href="/posts">POSTS</a>
+								&middot;
+								<a href="/about">ABOUT</a>
+							</div>
+							<br/>
 						</div>
-						<div class="about">
-							<p>
-								<b>Hello!</b><br/>
-								I like tinkering
-							</p>
-						</div>
-						<div class="links">
-							You can find me here:
-							<a href="#">Twitter</a>
-							<a href="#">GitHub</a>
-							<a href="#">Facebook</a>
-							<a href="#">LinkedIn</a>
-							<a href="#">Flickr</a>
-							<a href="#">Spotify</a>
+					</div>
+					<div class="line2">
+						<div class="inner">
+							<div class="col1">
+								&copy; 1979-2015 Per-Olov Jernberg, 
+								Stockholm, Sweden
+							</div>
+							<div class="col2">
+								<a href="#">Twitter</a>
+								<a href="#">GitHub</a>
+								<a href="#">Facebook</a>
+								<a href="#">LinkedIn</a>
+								<a href="#">Flickr</a>
+								<a href="#">Spotify</a>
+							</div>
+							<br/>
 						</div>
 					</div>
 				</footer>
