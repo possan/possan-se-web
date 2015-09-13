@@ -19,7 +19,7 @@
 		<div class="articles">
 			{{#items}}
 			<a href="{{link}}" class="article" data-linktransition="boxzoom">
-				<img src="{{coverthumb}}" data-highres="{{coverthumb2x}}" />
+				<img src="{{coverthumb}}" srcset="{{coverthumb}} 1x, {{coverthumb2x}} 2x" />
 				<header>
 					<h2>{{title}}</h2>
 					<p>{{comment}}</p>

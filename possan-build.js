@@ -208,7 +208,7 @@ Site.prototype.prepareProjects = function() {
 		};
 
 		var all_years = this.projectYears();
-		// console.log(all_years);
+		console.log('all_years', all_years);
 		all_years.forEach(function(year) {
 			var projects = _this.projectsByYear(year);
 			_this.sortByDate(projects, true);
@@ -226,11 +226,13 @@ Site.prototype.prepareProjects = function() {
 
 			outdoc.lists.push({
 				title: year,
+				link: '/projects/' + year,
 				items: yearitems
 			});
 
 			proms.push(_this._renderToDocument('projects/'+year, 'thumblist', {
 				title: year,
+				// link: '/projects/' + year,
 				lists: [{
 					items: yearitems
 				}]
@@ -456,14 +458,10 @@ Site.prototype.prepareRest = function() {
 Site.prototype.prepare = function() {
 	var _this = this;
 	var future = Q.defer();
-	Q.allSettled(_this.prepareIndex()).then(function(statuses) {
-		Q.allSettled(_this.preparePosts()).then(function(statuses) {
-			Q.allSettled(_this.prepareProjects()).then(function(statuses) {
-				Q.allSettled(_this.prepareRest()).then(function(statuses) {
-					future.resolve();
-				});
-			});
-		});
+	var allpromises = [].concat(_this.prepareIndex(), _this.preparePosts(), _this.prepareProjects(), _this.prepareRest());
+	console.log(allpromises.length + ' tasks to prepare..');
+	Q.allSettled(allpromises).then(function(statuses) {
+		future.resolve();
 	});
 	return future.promise;
 }
