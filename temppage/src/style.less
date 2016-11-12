@@ -1,0 +1,148 @@
+
+html {
+	height: 100%;
+}
+
+body {
+	font-size: 15pt;
+	@media(max-width:600px) {
+		font-size: 13pt;
+	}
+	font-family: Georgia,serif;
+	background-color: #123;
+	color: #ff0;
+	height: 100%;
+	overflow: hidden;
+}
+
+a {
+	color: #ff0;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+b {
+	text-align: left;
+	display: block;
+	margin: 0;
+	padding: 5px 0;
+	font-weight: normal;
+	border-top: 7px solid #ff0;
+	font-size: 30pt;
+	color: #ff0;
+
+	@media(max-width:600px) {
+		font-size: 13pt;
+		border-top: 2px solid #ff0;
+	}
+}
+
+.a {
+	position: absolute;
+	pointer-events: none;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	min-height: 100%;
+}
+
+.b {
+	// flex: none;
+	pointer-events: auto;
+	padding: 10px 20px;
+	border-radius: 4px;
+	text-transform: uppercase;
+
+	b {
+		img#avatar {
+			display: inline-block;
+			height: 30px;
+			width: 30px;
+			border-radius: 100%;
+			background-color: #ff0;
+		}
+	}
+
+	@media(max-width:600px) {
+		width: 80%;
+
+		b {
+			img#avatar {
+				height: 14px;
+				width: 14px;
+			}
+		}
+	}
+}
+
+p {
+	margin: 0;
+	display: block;
+	padding: 5px 0;
+	border-top: 7px solid #ff0;
+	border-bottom: 7px solid #ff0;
+
+	i {
+		font-style: normal;
+	}
+
+	@media(max-width:600px) {
+		border-top: 2px solid #ff0;
+		border-bottom: 2px solid #ff0;
+
+		color: #000;
+
+		a {
+			display: inline-block;
+			width: 49%;
+			clear: right;
+		}
+
+		i {
+			display: none;
+		}
+	}
+}
+
+canvas#c1 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	// width: 100px;
+	// height: 100px;
+	width: 100%;
+	height: 100%;
+}
+
+span#liek span {
+	display: inline-block;
+	transition: all 0.33s ease-in-out;
+
+	&.fadein {
+		opacity: 0.0;
+		transform: rotateX(270deg);
+	}
+
+	&.fadein.active {
+		opacity: 1.0;
+		transform: rotateX(0);
+	}
+
+	&.fadeout {
+		opacity: 1.0;
+		transform: rotateX(0);
+	}
+
+	&.fadeout.active {
+		opacity: 0.0;
+		transform: rotateX(-270deg);
+	}
+}
