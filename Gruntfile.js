@@ -99,6 +99,7 @@ module.exports = function(grunt) {
           'exec:save'
         ]
       },
+
       outputfiles: {
         files: ['output/**/*'],
         options: {
