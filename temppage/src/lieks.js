@@ -50,11 +50,11 @@
 	var state = 'start';
 
 	function tick() {
-		console.log('tick', state);
+		// console.log('tick', state);
 
 		switch(state) {
 			case 'start':
-				l1.innerText = '❤︎ ' + list[listposition];
+				l1.innerHTML = '&hearts; ' + list[listposition];
 				l1.className = 'fadein';
 				state = 'fading-in';
 				queueTick(25);
@@ -62,7 +62,7 @@
 
 			case 'fading-in':
 				l1.className = 'fadein active';
-				document.title = initialtitle + ' ' + l1.innerText;
+				document.title = initialtitle + ' ' + l1.textContent.toUpperCase();
 				state = 'fade-out';
 				queueTick(1500);
 				break;
