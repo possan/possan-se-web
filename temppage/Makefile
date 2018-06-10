@@ -4,8 +4,11 @@ clean:
 	rm -f dist/*
 	rm -f tmp/*
 
+install:
+	npm install -g uglify-js less browserify
+
 dist/style.min.css: src/style.less
-	lessc --clean-css src/style.less >dist/style.min.css
+	lessc src/style.less >dist/style.min.css
 
 tmp/main.js: src/main.js src/*.js
 	browserify src/main.js >tmp/main.js
@@ -17,9 +20,11 @@ dist/index.html: dist/main.min.js dist/style.min.css src/index.tmpl.html buildte
 	node buildtemplate.js >dist/index.html
 
 distmisc:
+	mkdir -p dist tmp
 	cp src/*webmanifest dist/
 	cp src/*gif dist/
 	cp src/*png dist/
+	cp src/*svg dist/
 
 # dist/avatar.png: src/avatar.png
 # 	cp src/avatar.png dist/avatar.png

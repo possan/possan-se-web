@@ -39,8 +39,6 @@
 		list.sort(function() { return (Math.random() < 0.5) ? -1 : 1; });
 	}
 
-	// console.log('list', list);
-
 	var el = document.getElementById('liek');
 
 	var l1 = document.createElement('span');
@@ -50,8 +48,6 @@
 	var state = 'start';
 
 	function tick() {
-		// console.log('tick', state);
-
 		switch(state) {
 			case 'start':
 				l1.innerHTML = '&hearts; ' + list[listposition];
@@ -90,5 +86,4 @@
 	queueTick(1000);
 };
 
-// window.addEventListener('load', init);
 module.exports = Lieks;

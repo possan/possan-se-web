@@ -1,19 +1,29 @@
 function BackgroundEffect() {
 
+	var BACKGROUND_COLOR = '#2E112D';
+
+	var POINT_COLOR = 'rgba(201,34,54,0.66)';
+	var LINE_COLOR = function(br, x) { return 'rgba(201,34,54,'+br+')'; }
+
 	var c1 = document.getElementById('c1');
 
 	var width = 100;
 	var height = 100;
 	var density = 1;
 
-	var targetnumpoints = 100;
+	var MAX_POINTS = 300;
+	var targetnumpoints = MAX_POINTS;
 
 	var pts = [];
 
-	var GS = 400;
-	var QW = 10000;
-	var MAXLINE = 300;
-	var LR = 2;
+	var SIMWIDTH = 1024;
+	var SIMHEIGHT = 1024;
+
+	var GS = 100;
+	var QW = 1000;
+	var MAXLINE = 130;
+
+	var TIME = 0.0;
 
 	function resize() {
 		width = window.innerWidth;
@@ -21,11 +31,31 @@ function BackgroundEffect() {
 		density = window.devicePixelRatio || 1;
 		width *= density;
 		height *= density;
-		targetnumpoints = Math.ceil(width * height / 40000);
-		if (targetnumpoints > 100)
-			targetnumpoints = 100;
+		targetnumpoints = Math.ceil(width * height / 20000);
+		if (targetnumpoints > MAX_POINTS)
+			targetnumpoints = MAX_POINTS;
 		c1.width = width;
 		c1.height = height;
+	}
+
+	function rotate(p, a) {
+		return {
+			x: p.x * Math.sin(a) + p.y * Math.cos(a),
+			y: p.x * Math.cos(a) - p.y * Math.sin(a),
+		}
+	}
+
+	function project(p) {
+		var z = Math.sqrt(p.x*p.x + p.y*p.y);
+		var hw = width / 2.0;
+		var hh = height / 2.0;
+		var s = Math.max(width, height) / 2.0;
+		s *= (1.0 + 0.1 * Math.sin(z / 100.0 + TIME * 1.5));
+		var p2 = rotate(p, -TIME / 4.0);
+		return {
+			x: hw + s * p2.x / 1024.0, // * (0.5 + z),
+			y: hh + s * p2.y / 1024.0, // * (0.5 + z),
+		}
 	}
 
 	function PT() {
@@ -38,24 +68,22 @@ function BackgroundEffect() {
 		this.fy = 0;
 		this.vx = 0;
 		this.vy = 0;
-
 		this.tg = 0;
 		this.tgx = 0;
 		this.tgy = 0;
-
 		this.respawn();
 	}
 
 	PT.prototype.respawn = function() {
-		this.x = Math.random() * width;
-		this.y = Math.random() * height;
+		this.x = -SIMWIDTH + Math.random() * 2 * SIMWIDTH;
+		this.y = -SIMHEIGHT + Math.random() * 2 * SIMHEIGHT;
 		this.qx = -10;
 		this.qy = -10;
 		this.qid = 0;
 		var s = Math.random() * 1;
 		s = s * s * s;
 		s += 0.5;
-		s *= 0.3;
+		s *= 0.2;
 		s *= density;
 		var a = Math.random() * Math.PI * 2.0;
 		this.tfx = s * Math.sin(a);
@@ -73,31 +101,12 @@ function BackgroundEffect() {
 	}
 
 	PT.prototype.update = function() {
-		// if (this.t < 100) {
-		// this.t ++;
-
-		// if (pt > 0) {
-		// 	var dx = px - this.x;
-		// 	var dy = py - this.y;
-		// 	dx *= 0.001;
-		// 	dy *= 0.001;
-		// 	this.x += dx;
-		// 	this.y += dy;
-
-		// } else {
-
-		// this.vx += this.tfx;
-		// this.vy += this.tfy;
-
 		this.x += this.vx;
 		this.y += this.vy;
-		// }
-
 		this.vx *= 0.9;
 		this.vy *= 0.9;
 		this.vx += this.fx;
 		this.vy += this.fy;
-
 		this.fx *= 0.9;
 		this.fy *= 0.9;
 
@@ -105,7 +114,7 @@ function BackgroundEffect() {
 			var dx = this.x - this.tgx;
 	 		var dy = this.y - this.tgy;
 			var dl = Math.sqrt(dx * dx + dy * dy);
-			var df = dl / 500.0;
+			var df = dl / 100.0;
 			if (df < 1.0) {
 				dx /= dl;
 				dy /= dl;
@@ -121,27 +130,26 @@ function BackgroundEffect() {
 		this.fx += dfx * 0.9;
 		this.fy += dfy * 0.9;
 
+		if (this.x > SIMWIDTH) this.x = -SIMWIDTH;
+		if (this.y > SIMHEIGHT) this.y = -SIMHEIGHT;
+		if (this.x < -SIMWIDTH) this.x = SIMWIDTH;
+		if (this.y < -SIMHEIGHT) this.y = SIMHEIGHT;
 
-
-		if (this.x > width) this.x -= width;
-		if (this.y > height) this.y -= height;
-		if (this.x < 0) this.x += width;
-		if (this.y < 0) this.y += height;
 		this.qx = Math.floor((this.x + 0) / GS);
 		this.qy = Math.floor((this.y + 0) / GS);
 		this.qid = this.qy * QW + this.qx;
-
 		this.tg = 0;
 	}
 
 	PT.prototype.render = function(ctx) {
-		ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+		ctx.strokeStyle = POINT_COLOR;
+		ctx.lineWidth = 1;
+		var p = project(this);
 		ctx.beginPath();
-		ctx.moveTo(this.x, this.y-density);
-		ctx.lineTo(this.x, this.y+density);
+		ctx.moveTo(p.x, p.y);
+		ctx.lineTo(p.x, p.y+density);
 		ctx.stroke();
 	}
-
 
 	function render() {
 		if (pts.length < targetnumpoints) {
@@ -153,7 +161,7 @@ function BackgroundEffect() {
 
 		var ctx = c1.getContext('2d');
 
-		ctx.fillStyle = '#123';
+		ctx.fillStyle = BACKGROUND_COLOR;
 		ctx.fillRect(0,0, width, height);
 
 		for (var i=0; i<pts.length; i++) {
@@ -164,23 +172,29 @@ function BackgroundEffect() {
 		var lines = [];
 		for (var j=0; j<pts.length; j++) {
 			for (var i=0; i<pts.length; i++) {
-				if (i != j) {
-					var p1 = pts[i];
-					var p2 = pts[j];
-					if (p1.qx >= (p2.qx - 1) && p1.qx <= (p2.qx + 1) &&
-						p1.qy >= (p2.qy - 1) && p1.qy <= (p2.qy + 1)) {
-						var dx = p1.x - p2.x;
-						var dy = p1.y - p2.y;
-						var dl = Math.sqrt(dx * dx + dy * dy);
-						if (dl < MAXLINE) {
-							lines.push({
-								a: p1,
-								b: p2,
-								d: dl
-							});
-						}
-					}
+				if (i == j) {
+					continue;
 				}
+
+				var p1 = pts[i];
+				var p2 = pts[j];
+				if (p1.qx < (p2.qx - 1) || p1.qx > (p2.qx + 1) ||
+					p1.qy < (p2.qy - 1) || p1.qy > (p2.qy + 1)) {
+					continue;
+				}
+
+				var dx = p1.x - p2.x;
+				var dy = p1.y - p2.y;
+				var dl = Math.sqrt(dx * dx + dy * dy);
+				if (dl > MAXLINE) {
+					continue;
+				}
+
+				lines.push({
+					a: project(p1),
+					b: project(p2),
+					d: dl
+				});
 			}
 		}
 
@@ -204,33 +218,22 @@ function BackgroundEffect() {
 
 			br *= 0.5;
 
-			ctx.strokeStyle = 'rgba(255,255,255,'+br+')';
+			ctx.strokeStyle = LINE_COLOR(br, l.a.x);
+			ctx.lineWidth = 2.0 + 10.0 * br;
 			ctx.beginPath();
 			ctx.moveTo(l.a.x, l.a.y);
 			ctx.lineTo(l.b.x, l.b.y);
 			ctx.stroke();
-
-			// ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-			// ctx.beginPath();
-			// ctx.moveTo(l.a.x-LR, l.a.y);
-			// ctx.lineTo(l.a.x+LR, l.a.y);
-			// ctx.moveTo(l.a.x, l.a.y-LR);
-			// ctx.lineTo(l.a.x, l.a.y+LR);
-			// ctx.moveTo(l.b.x-LR, l.b.y);
-			// ctx.lineTo(l.b.x+LR, l.b.y);
-			// ctx.moveTo(l.b.x, l.b.y-LR);
-			// ctx.lineTo(l.b.x, l.b.y+LR);
-			// ctx.stroke();
 		});
 
-		// var qw = Math.
 		for (var i=0; i<pts.length; i++) {
 			var p = pts[i];
 			p.render(ctx);
 		}
 
+		TIME += 1.0 / 60.0;
+
 		requestAnimationFrame(render);
-		// setTimeout(render.bind(this), 100);
 	}
 
 	resize();

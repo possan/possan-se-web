@@ -1,22 +1,25 @@
+@fg: #F04F38;
+@bg: #2E112D;
+@linewidth: 4px;
 
 html {
 	height: 100%;
 }
 
 body {
-	font-size: 15pt;
+	font-size: 16pt;
 	@media(max-width:600px) {
-		font-size: 13pt;
+		font-size: 14pt;
 	}
-	font-family: Georgia,serif;
-	background-color: #123;
-	color: #ff0;
-	height: 100%;
+	font-family: 'Crete Round', Georgia, serif;
+	color: @fg;
+	background-color: @bg;
 	overflow: hidden;
+	height: 100%;
 }
 
 a {
-	color: #ff0;
+	color: @fg;
 	text-decoration: none;
 }
 
@@ -30,14 +33,14 @@ b {
 	margin: 0;
 	padding: 0 0;
 	font-weight: normal;
-	border-top: 7px solid #ff0;
-	font-size: 30pt;
-	color: #ff0;
+	border-top: @linewidth solid @fg;
+	font-size: 26pt;
+	color: @fg;
 
 	@media(max-width:600px) {
 		padding: 5px 0;
-		font-size: 13pt;
-		border-top: 2px solid #ff0;
+		font-size: 14pt;
+		border-top: 2px solid @fg;
 	}
 }
 
@@ -56,19 +59,24 @@ b {
 }
 
 .b {
-	// flex: none;
 	pointer-events: auto;
 	padding: 10px 20px;
 	border-radius: 4px;
 	text-transform: uppercase;
 
 	b {
-		img#avatar {
+		span#avatar {
 			display: inline-block;
-			height: 30px;
-			width: 30px;
+			height: 26px;
+			width: 26px;
 			border-radius: 100%;
-			background-color: #ff0;
+			overflow: hidden;
+			background-color: @fg;
+
+			img {
+				height: 26px;
+				width: 26px;
+			}
 		}
 	}
 
@@ -76,9 +84,14 @@ b {
 		width: 90%;
 
 		b {
-			img#avatar {
+			span#avatar {
 				height: 14px;
 				width: 14px;
+
+				img {
+					height: 14px;
+					width: 14px;
+				}
 			}
 		}
 	}
@@ -87,9 +100,9 @@ b {
 p {
 	margin: 0;
 	display: block;
-	padding: 5px 0;
-	border-top: 7px solid #ff0;
-	border-bottom: 7px solid #ff0;
+	padding: 10px 0;
+	border-top: @linewidth solid @fg;
+	border-bottom: @linewidth solid @fg;
 
 	i {
 		font-style: normal;
@@ -98,10 +111,8 @@ p {
 	}
 
 	@media(max-width:600px) {
-		border-top: 2px solid #ff0;
-		border-bottom: 2px solid #ff0;
-
-		color: #000;
+		border-top: 2px solid @fg;
+		border-bottom: 2px solid @fg;
 
 		a {
 			display: inline-block;
@@ -119,8 +130,6 @@ canvas#c1 {
 	position: absolute;
 	left: 0;
 	top: 0;
-	// width: 100px;
-	// height: 100px;
 	width: 100%;
 	height: 100%;
 }
